@@ -1,0 +1,286 @@
+/**  
+* ! changing default styles of browser
+**/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+}
+
+
+
+.container {
+    /* max-width: 100%; */
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    border: 2px solid #039bE5;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+
+/**  
+* ! style rules for the content section
+**/
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #93AF56;
+    width: 55%;
+    /* stretch from top to bottom */
+    min-height: 100vh;
+    padding: 10px 20px;
+}
+
+.logo {
+    cursor: pointer;
+}
+
+.img {
+    /* background-image: url("/images/illustration.svg"); */
+    /* height: 75vh; */
+    /* border: 2px solid black; */
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    text-align: center;
+}
+
+.text {
+    text-align: center;
+    /* padding: 10px; */
+    color: #fff;
+    font-size: 25px;
+    /* font-weight: bold; */
+}
+
+
+/**  
+* ! style rules for the form section
+**/
+
+form {
+    width: 45%;
+    /* to align the form to center */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* max-width: 400px; */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+form div input {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    outline: none;
+    border: 2px solid #c4c4c4;
+    padding: 0 30px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+label {
+    display: block;
+    /* border: 2px solid red; */
+    margin: 5px;
+}
+
+form div {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+input:focus {
+    border: 2px solid #93AF56;
+}
+
+/**  
+* ! style rules for the form icons
+**/
+
+form div i {
+    position: absolute;
+    padding: 10px;
+}
+
+.failure-icon,
+.success-icon {
+right: 0;    
+opacity: 0;
+}
+
+.failure-icon,
+.error {
+    color: red;
+}
+
+.success-icon {
+    color: green;
+}
+
+.error {
+    font-size: 14.5px;
+    margin-top: 5px;
+}
+
+
+/**  
+* ! Button styling 
+**/
+
+#button {
+    width: 100%;
+    height: 45px;
+    background-color: #93AF56;
+    border: 2px solid #93AF56;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    margin-top: 15px;
+    color: #fff;
+    cursor: pointer;
+    transform: all 0.2s ease;
+}
+    
+#button:hover {
+    opacity: 0.8;
+}
+
+/**  
+* ! style rules for social button  
+**/
+span {
+    color: #93AF56;
+    cursor: pointer;
+    
+    /* font-weight: bold; */
+}
+
+.question {
+    font-size: 15px;
+}
+
+.btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.btn-1,
+.btn-2 {
+    width: 100%;
+    height: 40px;
+    padding: 10px 5px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #c4c4c4;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+
+.btn-2 {
+    background-color: #039bE5;
+    color: #ffffff;
+}
+
+.btn-1:hover {
+    background-color: rgb(245, 243, 243);
+    transition: all 0.4s ease;
+}
+.btn-2:hover {
+    background-color: #fff;
+    color: #039bE5;
+    transition: all 0.4s ease;
+}
+
+
+
+
+.or {
+    text-align: center;
+    font-size: 30px;
+    /* font-weight: bold; */
+}
+
+
+
+
+
+
+/**  
+* ! Media queries are here
+**/
+
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;    
+    }
+
+    .content,
+    #form {
+        width: 100%;
+        /* align-items: center; */
+        justify-content: center;
+    }
+
+    .content {
+        justify-content: space-between;
+    }
+
+    .content .img {
+        /* height: 45vh; */
+        
+        /* background-repeat: no-repeat; */
+    }
+
+    .content .text {
+        font-size: 25px;
+        /* padding-bottom: 100px; */
+    }
+
+    .title,
+    .question {
+        text-align: center;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .question {
+        font-size: 20px;
+    }
+
+    .btn {
+        flex-direction: column;
+
+    }
+    
+}
+
+@media (max-width: 500px) {
+    #form {
+        padding: 20px;
+    }
+}

@@ -2,10 +2,25 @@
 * ! changing default styles of browser
 **/
 
+:root {
+    /* Content Section */
+    --BGC-COLOR: #93AF56;
+    --TEXT-COLOR: #fff;
+
+    /* icons color */
+    --ERROR-COLOR: #dc3545;
+    --SUCCESS-COLOR: #28a745;
+
+    /* Form Section */
+    --BOX-SHADOW: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    --INPUT-BORDER-COLOR: 2px solid #c4c4c4;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 body {
@@ -17,11 +32,11 @@ body {
 .container {
     /* max-width: 100%; */
     display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-    border: 2px solid #039bE5;
+    /* justify-content: center;
+    align-items: center; */
+    /* border: 2px solid #039bE5; */
     border-radius: 8px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--BOX-SHADOW)
     
 }
 
@@ -34,7 +49,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #93AF56;
+    background-color: var(--BGC-COLOR);
     width: 55%;
     /* stretch from top to bottom */
     min-height: 100vh;
@@ -48,7 +63,6 @@ body {
 .img {
     /* background-image: url("/images/illustration.svg"); */
     /* height: 75vh; */
-    /* border: 2px solid black; */
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -58,7 +72,7 @@ body {
 .text {
     text-align: center;
     /* padding: 10px; */
-    color: #fff;
+    color: var(--TEXT-COLOR);
     font-size: 25px;
     /* font-weight: bold; */
 }
@@ -75,7 +89,7 @@ form {
     flex-direction: column;
     justify-content: center;
     /* max-width: 400px; */
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--BOX-SHADOW);
     padding: 50px;
 }
 
@@ -90,15 +104,14 @@ form div input {
     height: 40px;
     border-radius: 8px;
     outline: none;
-    border: 2px solid #c4c4c4;
+    border: var(--INPUT-BORDER-COLOR);
     padding: 0 30px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--BOX-SHADOW);
 }
 
 
 label {
     display: block;
-    /* border: 2px solid red; */
     margin: 5px;
 }
 
@@ -107,8 +120,16 @@ form div {
     position: relative;
 }
 
-input:focus {
-    border: 2px solid #93AF56;
+div input:focus {
+    /* border: 2px solid #93AF56; */
+    outline: none;
+}
+
+div.error input {
+    border-color: var(--ERROR-COLOR)
+}
+div.success input {
+    border-color: var(--SUCCESS-COLOR)
 }
 
 /**  
@@ -128,11 +149,11 @@ opacity: 0;
 
 .failure-icon,
 .error {
-    color: red;
+    color: var(--ERROR-COLOR)
 }
 
 .success-icon {
-    color: green;
+    color: var(--SUCCESS-COLOR)
 }
 
 .error {
@@ -151,10 +172,10 @@ opacity: 0;
     background-color: #93AF56;
     border: 2px solid #93AF56;
     border-radius: 8px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--BOX-SHADOW);
     font-size: 20px;
     margin-top: 15px;
-    color: #fff;
+    color: var(--TEXT-COLOR);
     cursor: pointer;
     transform: all 0.2s ease;
 }
@@ -192,9 +213,9 @@ span {
     gap: 10px;
     justify-content: center;
     align-items: center;
-    border: 2px solid #c4c4c4;
+    border: var(--INPUT-BORDER-COLOR);
     border-radius: 8px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--BOX-SHADOW);
     cursor: pointer;
 }
 
@@ -248,11 +269,6 @@ span {
         justify-content: space-between;
     }
 
-    .content .img {
-        /* height: 45vh; */
-        
-        /* background-repeat: no-repeat; */
-    }
 
     .content .text {
         font-size: 25px;

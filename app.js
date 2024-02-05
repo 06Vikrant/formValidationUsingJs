@@ -262,8 +262,7 @@ form.addEventListener("submit", e => {
                     console.log(`Please fill out ${fieldName}.`);
                 });
             } else {
-                alert("Please fill out all fields correctly before submitting.");
-            }
+                    alert('Thank you for filling out your information! ...')            }
         }
 
     // Reset the form after submission

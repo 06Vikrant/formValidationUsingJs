@@ -3,30 +3,11 @@ const username = document.getElementById("username");
 const email = document.getElementById("email"); 
 const password = document.getElementById("password"); 
 const confirmPassword = document.getElementById('confirm-password'); 
+const showPassword = document.getElementById("show-password");
 const failureIcon = document.getElementsByClassName('failure-icon');
 const successIcon = document.getElementsByClassName('success-icon');
+const toggleEye = document.querySelector('.toggle-icon')
 
-
-form.addEventListener("submit", e => {
-    e.preventDefault();
-
-    let isUsernameValid = checkUsername(),
-        isEmailValid = checkEmail(),
-        isPasswordValid = checkPassword(),
-        isConfirmPasswordValid = checkConfirmPassword();
-
-    let isFormValid = isUsernameValid &&
-        isEmailValid &&
-        isPasswordValid &&
-        isConfirmPasswordValid;
-
-     // submit to the server if the form is valid
-    if (isFormValid) {
-
-    }
-    // formReset();
-
-})
 
 let isRequired = value => value === '' ? false : true;
 
@@ -46,8 +27,9 @@ const setError = (input, message) => {
     errorDisplay.innerText = message;
 }
 
-// function that show the success message
 
+
+// function that show the success message
 const setSuccess = input => {
     const inputControl = input.parentElement;
     console.log(inputControl);
@@ -57,6 +39,16 @@ const setSuccess = input => {
 
     const errorDisplay = inputControl.querySelector('.error');
     errorDisplay.innerText = '';
+}
+
+// Function to set opacity for success and failure icons
+const setIconOpacity = (index, successOpacity, failureOpacity) => {
+    if (successIcon[index]) {
+        successIcon[index].style.opacity = successOpacity;
+    }
+    if (failureIcon[index]) {
+        failureIcon[index].style.opacity = failureOpacity;
+    }
 }
 
 // To check the email is valid
@@ -80,14 +72,13 @@ const checkUsername = () => {
 
     if (!isRequired(usernameValue)) {
         setError(username, 'Username cannot be blank.')
-        failureIcon[0].style.opacity = '1';
+        setIconOpacity(0, 0, 1);
     } else if (!isBetween(usernameValue.length, min, max)) {
         setError(username, `Username must be between ${min} and ${max} characters.`);
-        failureIcon[0].style.opacity = '1';
+        setIconOpacity(0, 0, 1);
     } else {
         setSuccess(username);
-        successIcon[0].style.opacity = '1';
-        failureIcon[0].style.opacity = '0';
+        setIconOpacity(0, 1, 0);
         valid = true;
     }
     return valid;
@@ -100,14 +91,13 @@ const checkEmail = () => {
 
     if (!isRequired(emailValue)) {
         setError(email, 'Email cannot be blank.')
-        failureIcon[1].style.opacity = '1';
+                setIconOpacity(1, 0, 1);
     } else if (!isValidEmail(emailValue)) {
         setError(email, 'Please enter a valid email');
-        failureIcon[1].style.opacity = '1';
+                setIconOpacity(1, 0, 1);
     } else {
         setSuccess(email);
-        successIcon[1].style.opacity = '1';
-        failureIcon[1].style.opacity = '0';
+                setIconOpacity(1, 1, 0);
         valid = true;
     }
     return valid;
@@ -120,18 +110,62 @@ const checkPassword = () => {
 
     if (!isRequired(passwordValue)) {
         setError(password, 'Password cannot be blank.')
-        failureIcon[2].style.opacity = '1';
+                setIconOpacity(2, 0, 1);
     } else if (!isPasswordSecure(passwordValue)) {
-        setError(password, 'Password must has at least 8 characters that include at least 1 lowercase character, 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)');
-        failureIcon[2].style.opacity = '1';
+        if (passwordValue.length < 8) {
+            setError(password, 'Password must have at least 8 characters');
+        } else if (!passwordValue.match(/[a-z]/)) {
+            setError(password, 'Password must include at least 1 lowercase character');
+        } else if (!passwordValue.match(/[A-Z]/)) {
+            setError(password, 'Password must include at least 1 uppercase character');
+        } else if (!passwordValue.match(/[0-9]/)) {
+            setError(password, 'Password must include at least 1 number');
+        } else if (!passwordValue.match(/[!@#$%^&*]/)) {
+            setError(password, 'Password must include at least 1 special character from (!@#$%^&*)');
+        } else {
+            // Password meets all criteria
+            setError(password);
+        }
+                setIconOpacity(2, 0, 1);
     } else {
         setSuccess(password);
-        successIcon[2].style.opacity = '1';
-        failureIcon[2].style.opacity = '0';
+                setIconOpacity(2, 1, 0);
         valid = true;
+        console.log(`pass: ${passwordValue}`);
     }
     return valid;
 }
+
+
+// Show password confirmation
+toggleEye.addEventListener('click', () => {
+    const icon = toggleEye.querySelector('i');
+
+    if (password.type === 'password') {
+        password.type = 'text';
+        confirmPassword.type = 'text'
+        toggleEye.type = 'hide';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+        toggleEye.setAttribute("aria-label", "hide password");
+        toggleEye.setAttribute("aria-checked", "true");
+    } else {
+        password.type = 'password';
+        confirmPassword.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+        toggleEye.setAttribute("aria-label", "show password");
+        toggleEye.setAttribute("aria-checked", "false");
+    }
+})
+
+// Function to clear the error message and hide the error icon
+const clearError = (element) => {
+    const inputControl = element.parentElement
+    inputControl.classList.remove('error', 'success'); // Remove error and success classes
+    element.nextElementSibling.textContent = '' // Clear the error message
+}
+
 
 // 4. check confirm password matches password
 const checkConfirmPassword = () => {
@@ -139,20 +173,128 @@ const checkConfirmPassword = () => {
     const confirmPasswordValue = confirmPassword.value.trim();
     const passwordValue = password.value.trim();
 
-    if (!isRequired(confirmPasswordValue)) {
-        setError(confirmPassword, 'Please enter the password again');
-        failureIcon[3].style.opacity = '1';
-    } else if (passwordValue !== confirmPasswordValue) {
+    if (confirmPasswordValue === '') {
+        setError(confirmPassword, 'Confirm password cannot be blank');
+                setIconOpacity(3, 0, 1);
+        clearError(confirmPassword)
+    } else if (confirmPasswordValue !== passwordValue) {
         setError(confirmPassword, 'Confirm password does not match');
-        failureIcon[3].style.opacity = '1';
+                setIconOpacity(3, 0, 1);
     } else {
         setSuccess(confirmPassword);
+                setIconOpacity(3, 1, 0);
         valid = true;
-        successIcon[3].style.opacity = '1';
-        failureIcon[3].style.opacity = '0';
+        console.log(`confirm pass: ${confirmPasswordValue}`);
     }
     return valid;
 }
+
+// Function to check if all form fields are filled out
+const isFormValid = () => {
+    // Iterate over each form field
+    const inputs = [username, email, password, confirmPassword];
+    for (let input of inputs) {
+        // Check if the value of the input field is empty
+        if (input.value.trim() === '') {
+            return false; // Return false if any field is empty
+        }
+    }
+    return true; // Return true if all fields are filled out
+};
+
+
+
+// Event listeners to trigger validation on input
+password.addEventListener('input', () => checkPassword());
+confirmPassword.addEventListener('input', () => checkConfirmPassword());
+
+// Reset icons on form submission
+const resetIcons = () => {
+    for (let i = 0; i < failureIcon.length; i++) {
+        failureIcon[i].style.opacity = '0';
+    }
+    for (let i = 0; i < successIcon.length; i++) {
+        successIcon[i].style.opacity = '0';        
+    }
+}
+
+const formReset = () => {
+    // Clear the value of each form field
+    username.value = ''
+    email.value = ''
+    password.value = ''
+    confirmPassword.value = ''
+
+    // Clear error messages and reset styling
+    clearError(username)
+    clearError(email)
+    clearError(password)
+    clearError(confirmPassword)
+
+    // Reset Icons
+    resetIcons()
+}
+
+form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    let isUsernameValid = checkUsername(),
+        isEmailValid = checkEmail(),
+        isPasswordValid = checkPassword(),
+        isConfirmPasswordValid = checkConfirmPassword();
+
+    let isFormValid = isUsernameValid &&
+        isEmailValid &&
+        isPasswordValid &&
+        isConfirmPasswordValid;
+
+     
+        if (typeof isFormValid === 'function' && isFormValid()) {
+            // Submit the form to the server if it's valid
+            submitToServer();
+        } else {
+            // Handle the case where the form is not valid
+            const emptyFields = findEmptyFields();
+            if (emptyFields.length > 0) {
+                // Display error message for empty fields
+                emptyFields.forEach(field => {
+                    const fieldName = field.id.replace('-', ' ');
+                    console.log(`Please fill out ${fieldName}.`);
+                });
+            } else {
+                alert("Please fill out all fields correctly before submitting.");
+            }
+        }
+
+    // Reset the form after submission
+    formReset();
+
+})
+
+// Function to find empty fields in the form
+const findEmptyFields = () => {
+    const emptyFields = [];
+    const inputs = [username, email, password, confirmPassword];
+    for (let input of inputs) {
+        if (input.value.trim() === '') {
+            emptyFields.push(input);
+        }
+    }
+    return emptyFields;
+};
+
+
+// Function to submit form data to the server
+const submitToServer = () => {
+    // Construct data object to send to the server
+    const formData = {
+        username: username.value.trim(),
+        email: email.value.trim(),
+        password: password.value.trim(),
+        confirmPassword: confirmPassword.value.trim()
+        // Add more fields if needed
+    }
+    };
 
 // Add Instant feedback feature
 // using Debounce function is =>

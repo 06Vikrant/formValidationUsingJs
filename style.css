@@ -6,6 +6,8 @@
     /* Content Section */
     --BGC-COLOR: #93AF56;
     --TEXT-COLOR: #fff;
+    --accent-color: #6200ee;
+    --accent-color-opaque: #6200ee24;
 
     /* icons color */
     --ERROR-COLOR: #dc3545;
@@ -30,10 +32,11 @@ body {
 
 
 .container {
-    /* max-width: 100%; */
+    min-height: 100%;
+    padding: 1rem;
     display: flex;
-    /* justify-content: center;
-    align-items: center; */
+    justify-content: center;
+    align-items: center;
     /* border: 2px solid #039bE5; */
     border-radius: 8px;
     box-shadow: var(--BOX-SHADOW)
@@ -83,12 +86,13 @@ body {
 **/
 
 form {
-    width: 45%;
+    width: 95%;
     /* to align the form to center */
     display: flex;
     flex-direction: column;
+    gap: 2.5rem;
     justify-content: center;
-    /* max-width: 400px; */
+    max-width: 600px;
     box-shadow: var(--BOX-SHADOW);
     padding: 50px;
 }
@@ -99,21 +103,117 @@ form {
     margin-bottom: 20px;
 }
 
-form div input {
-    width: 100%;
-    height: 40px;
-    border-radius: 8px;
-    outline: none;
-    border: var(--INPUT-BORDER-COLOR);
-    padding: 0 30px;
-    box-shadow: var(--BOX-SHADOW);
+.input-container {
+    /* background-color: #039bE5; */
+    position: relative;
+    border-radius: 4px 4px 0 0;
+    height: 56px;
+    transition: background-color 500ms;
 }
 
+.input-container:hover {
+    background-color: rgb(245, 243, 243);
+    transition: all 0.4s ease;}
+
+.input-container:focus-within {
+    background-color: rgb(245, 243, 243);
+}
 
 label {
     display: block;
-    margin: 5px;
+    /* margin: 5px; */
+    position: absolute;
+    top: -19%;
+    transform: translateY(-50%);
+    left: 16px;
+    color: rgba(0, 0, 0, 0.5);
+    transform-origin: top left;
+    user-select: none;
+    transition: transform 150ms 
+                cubic-bezier(0.4, 0, 0.2, 1),
+                color 150ms cubic-bezier(0.4, 0, 0.2, 1), 
+                top 500ms;
 }
+
+/* Input icons */
+.input-icons {
+    position: absolute;
+    top: 30%;
+}
+
+input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    caret-color: var(--SUCCESS-COLOR);
+    border-radius: 8px;
+    outline: none;
+    border: var(--INPUT-BORDER-COLOR);
+    /* border-bottom-color: var(--ERROR-COLOR); */
+    border-bottom-color: rgba(0, 0, 0, 0.42);
+    color: rgba(0, 0, 0, 0.87);
+    padding: 20px 30px 6px;
+    font-size: 1rem;
+    box-shadow: var(--BOX-SHADOW);
+}
+
+input:focus {
+    outline: none;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--INPUT-BORDER-COLOR);
+}
+
+input:focus + label,
+input.is-valid + label {
+    transform: translateY(-100%), scale(0.75);
+}
+
+input[type=submit] {
+    transition: 0.25s;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 12px;
+    background-color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 14px;
+}
+
+input[type=submit]:disabled {
+    color: #808080;
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+
+  input[type=submit]:not(:disabled):hover {
+    border-color: transparent;
+    background-color: var(--accent-color-opaque);
+    color: var(--accent-color);
+  }
+  
+.toggle-icon {
+    position: absolute;
+    transition: opacity .25s;
+    background-color: transparent;
+    top: 15%;
+    right: 10%;
+    cursor: pointer;
+    border: none;
+    color: grey;
+    outline: none;
+    z-index: 2;
+
+}
+
+.toggle-icon i {
+    font-size: 1.2rem;
+    color: grey;
+}
+.toggle-icon:hover {
+    color: black;
+    }
+
+
 
 form div {
     margin-bottom: 15px;
@@ -132,6 +232,46 @@ div.success input {
     border-color: var(--SUCCESS-COLOR)
 }
 
+.show-password {
+    transition: opacity .25s;
+    position: absolute;
+    background-color: transparent;
+    right: 10px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    border: none;
+    font-size: 10px;
+    color: grey;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+  }
+  
+  .show-password:hover,
+  .show-password:focus {
+    color: black;
+    cursor: pointer;
+  }
+
+.show-password i {
+    position: relative;
+    font-size: 1rem;
+}
+
+  .input-container:not(:hover, :focus-within) .toggle-icon {
+    opacity: 0;
+  }
+  
+  .password-requirements {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -1rem;
+    padding: 0 16px;
+  }
+  
+
 /**  
 * ! style rules for the form icons
 **/
@@ -143,8 +283,10 @@ form div i {
 
 .failure-icon,
 .success-icon {
-right: 0;    
-opacity: 0;
+    position: absolute;
+    top: 20%;
+/* right: 0;     */
+    opacity: 0;
 }
 
 .failure-icon,
